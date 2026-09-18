@@ -9,7 +9,11 @@ export function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastContainer autoClose={1500} />
+      <ToastContainer
+        autoClose={1500}
+        theme="colored"
+        position="bottom-right"
+      />
       <RouterProvider router={routes} />;
     </QueryClientProvider>
   );

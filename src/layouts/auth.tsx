@@ -1,11 +1,12 @@
 import { Outlet } from "react-router";
 
+import picpaySmLogo from "@/assets/images/logo-sm.png";
 import picpayLogo from "@/assets/images/logo-xs.png";
 
 export function AuthLayout() {
   return (
     <main className="h-screen flex items-center w-full">
-      <div className="h-full flex flex-col items-center justify-center w-[70%] bg-picpay">
+      <div className="h-full flex-col items-center hidden lg:flex justify-center w-[70%] bg-picpay">
         <img src={picpayLogo} alt="" />
       </div>
 
@@ -13,7 +14,11 @@ export function AuthLayout() {
         Versão Clonada
       </div>
 
-      <div className="flex items-center justify-center w-full">
+      <div className="flex flex-col items-center justify-center w-full">
+        <div className=" lg:hidden ">
+          <img src={picpaySmLogo} alt="" className="w-48" />
+        </div>
+
         <Outlet />
       </div>
     </main>

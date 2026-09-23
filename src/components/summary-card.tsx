@@ -9,7 +9,7 @@ interface Props {
 
 export function SummaryCard(props: Props) {
   return (
-    <div className="p-4 bg-white border border-zinc-200 w-full rounded-md">
+    <div className="p-4 bg-white border border-zinc-200 w-full">
       <div className="flex items-center gap-x-2">
         <div className="rounded-md bg-zinc-100 w-10 h-10 flex items-center justify-center text-zinc-600 font-bold">
           <HugeiconsIcon icon={props.icon} />

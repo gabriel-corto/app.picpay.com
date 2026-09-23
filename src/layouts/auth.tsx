@@ -1,9 +1,24 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 
 import picpaySmLogo from "@/assets/images/logo-sm.png";
 import picpayLogo from "@/assets/images/logo-xs.png";
+import { AuthContext } from "@/context/auth";
+import { useContext, useEffect } from "react";
 
 export function AuthLayout() {
+  const { getToken } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = getToken();
+
+    if (token) {
+      navigate("/", {
+        replace: true,
+      });
+    }
+  }, [getToken, navigate]);
+
   return (
     <main className="h-screen flex items-center w-full">
       <div className="h-full flex-col items-center hidden lg:flex justify-center w-[70%] bg-picpay">

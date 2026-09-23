@@ -1,5 +1,5 @@
 import { login } from "@/api/auth";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,14 +13,25 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useMutation } from "@tanstack/react-query";
 
+import { AuthContext } from "@/context/auth";
 import { loginSchema, type LoginForm } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export function LoginPage() {
+  const { storageToken } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const { mutateAsync: loginService, isPending } = useMutation({
     mutationFn: login,
+    onSuccess: (data) => {
+      storageToken(data.data?.token as string);
+      navigate("/", {
+        replace: true,
+      });
+    },
   });
 
   const {

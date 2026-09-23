@@ -1,4 +1,4 @@
-import { createUser } from "@/api/auth";
+import { createUser, login } from "@/api/auth";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/hooks/useAuth";
 import { registerSchema, type RegisterForm } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -22,8 +23,18 @@ import { Link } from "react-router";
 import { toast } from "react-toastify";
 
 export function RegisterPage() {
+  const { storageToken } = useAuth();
   const { mutateAsync: registerService, isPending } = useMutation({
     mutationFn: createUser,
+    onSuccess: async (_, variables) => {
+      toast.success("Conta Cadastrada com sucesso!");
+      const r = await login({
+        email: variables.email,
+        password: variables.password,
+      });
+
+      storageToken(r.data?.token as string);
+    },
   });
 
   const {

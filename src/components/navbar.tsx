@@ -9,9 +9,11 @@ import picpayLogo from "@/assets/images/logo.png";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useState } from "react";
 import { WalletDepositDialog } from "./wallet-deposit-modal";
+import { WalletP2PModal } from "./wallet-p2p-modal";
 
 export function Navbar() {
   const [walletDepositDialog, setWalletDepositDialog] = useState(false);
+  const [walletP2PDialog, setwalletP2PDialog] = useState(false);
 
   return (
     <>
@@ -39,10 +41,11 @@ export function Navbar() {
 
         <Link
           to=""
+          onClick={() => setwalletP2PDialog(true)}
           className="rounded-md  text-zinc-600 font-light flex w-fit gap-x-2 text-sm items-center"
         >
           <HugeiconsIcon icon={ArrowUpRight01Icon} />
-          <span>Transferir</span>
+          <span>P2P</span>
         </Link>
       </nav>
 
@@ -50,6 +53,8 @@ export function Navbar() {
         open={walletDepositDialog}
         setOpen={setWalletDepositDialog}
       />
+
+      <WalletP2PModal open={walletP2PDialog} setOpen={setwalletP2PDialog} />
     </>
   );
 }

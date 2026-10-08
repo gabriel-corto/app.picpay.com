@@ -4,8 +4,8 @@ import type { ApiResponse } from "@/types/api";
 import type {
   LoginBody,
   LoginResponse,
-  Me,
   RegiterBody,
+  User,
 } from "@/types/schemas";
 
 export async function login(payload: LoginBody) {
@@ -19,7 +19,7 @@ export async function login(payload: LoginBody) {
 
 export async function createUser(payload: RegiterBody) {
   await new Promise((r) => setTimeout(r, 1000));
-  const response = await api.post<ApiResponse<Me>>("/users", {
+  const response = await api.post<ApiResponse<User>>("/users", {
     ...payload,
   });
 

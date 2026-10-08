@@ -1,3 +1,4 @@
+import { getTransactions } from "@/api/wallet";
 import {
   Table,
   TableBody,
@@ -6,38 +7,56 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTransaction } from "@/hooks/useTransaction";
+import type { Transaction } from "@/types/schemas";
+import { currencyFormatter, dateFormatter } from "@/utils/formatter";
+import { useQuery } from "@tanstack/react-query";
 
-const transactions = [
-  {
-    date: "12/12/2026",
-    payer: "Gabriel Francisco",
-    payee: "Pedro Mateus",
-    value: "$ 17.000,00",
-  },
-];
-export function TransactionTable() {
+function TransactionRow({ transaction }: { transaction: Transaction }) {
+  const { color, sign } = useTransaction(transaction);
+
   return (
-    <div className="border border-zinc-200 p-4 mt-6">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-50">Data</TableHead>
-            <TableHead>Pagador</TableHead>
-            <TableHead>Destinatário</TableHead>
-            <TableHead className="text-right">Valor</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {transactions.map((invoice) => (
-            <TableRow key={invoice.date}>
-              <TableCell className="font-medium">{invoice.date}</TableCell>
-              <TableCell>{invoice.payer}</TableCell>
-              <TableCell>{invoice.payee}</TableCell>
-              <TableCell className="text-right">{invoice.value}</TableCell>
+    <TableRow className="py-5">
+      <TableCell className="font-medium">
+        {dateFormatter.format(new Date(transaction.createdAt))}
+      </TableCell>
+      <TableCell>{transaction.payer.name}</TableCell>
+      <TableCell>{transaction.payee.name}</TableCell>
+      <TableCell className={`text-right ${color}`}>
+        {sign} {currencyFormatter.format(transaction.value)}
+      </TableCell>
+    </TableRow>
+  );
+}
+
+export function TransactionTable() {
+  const { data: response } = useQuery({
+    queryKey: ["transactions"],
+    queryFn: getTransactions,
+  });
+
+  return (
+    <div>
+      <div className="border border-zinc-200 p-4 mt-6">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-50">Data</TableHead>
+              <TableHead>Pagador</TableHead>
+              <TableHead>Destinatário</TableHead>
+              <TableHead className="text-right">Valor</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {response?.data?.map((transaction) => (
+              <TransactionRow
+                key={transaction.createdAt + transaction.value}
+                transaction={transaction}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

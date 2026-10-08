@@ -13,20 +13,25 @@ export function DashboardPage() {
     <PageContainer title="Dashboard" subtitle="Acompanhe os seus pagamentos">
       <div className="mt-10 flex items-center gap-x-6">
         <SummaryCard
-          value="$ 17"
+          value="AKZ 17"
           theme="neutral"
           title="Entrada"
           icon={ArrowUp02Icon}
         />
 
         <SummaryCard
-          value="$ 20"
+          value="AKZ 20"
           theme="neutral"
           title="Saída"
           icon={ArrowDown02Icon}
         />
 
-        <SummaryCard value="$ 34" theme="neutral" title="Saldo" icon={Dollar} />
+        <SummaryCard
+          value="AKZ 34"
+          theme="neutral"
+          title="Saldo"
+          icon={Dollar}
+        />
       </div>
 
       <div className="mt-10">
